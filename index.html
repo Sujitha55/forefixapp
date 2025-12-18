@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ForeFix</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="logo-text">ForeFix</div>
+            <p>Pre-Problem Predictor</p>
+        </div>
+
+        <div class="auth-card">
+            <h2>Welcome Back</h2>
+            <p class="auth-subtitle">Login to predict your device health</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required placeholder="Enter your email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required placeholder="Enter your password">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>New to ForeFix? <a href="signup.html">Create an Account</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Page specific initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            if (Auth.isAuthenticated()) {
+                window.location.href = 'dashboard.html';
+            }
+
+            const loginForm = document.getElementById('loginForm');
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                if (Auth.login(email, password)) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Invalid credentials. Please try again.');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

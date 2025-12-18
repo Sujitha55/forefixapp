@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ForeFix</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo-icon">⚡</span>
+            ForeFix
+        </div>
+        <div class="nav-actions">
+            <button id="themeToggle" class="btn-icon" title="Toggle Dark Mode">
+                <span class="icon-sun">🌞</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+            <div class="user-menu">
+                <button id="historyBtn" class="btn btn-sm btn-outline">History</button>
+                <span id="userName">User</span>
+                <button id="logoutBtn" class="btn btn-sm btn-outline">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <!-- Device Tabs -->
+        <div class="device-tabs">
+            <button class="tab-btn active" data-tab="mobile">Mobile</button>
+            <button class="tab-btn" data-tab="laptop">Laptop</button>
+            <button class="tab-btn" data-tab="webapp">Web App</button>
+        </div>
+
+        <!-- content area -->
+        <div class="content-area">
+            <div class="header-section">
+                <h1>Device Health Check</h1>
+                <p>Select symptoms to predict potential issues.</p>
+            </div>
+
+            <!-- Symptom Selection -->
+            <div class="symptom-section">
+                <h3>Select Symptoms</h3>
+                <div id="symptomGrid" class="symptom-grid">
+                    <!-- Symptoms injected by JS -->
+                </div>
+
+                <div class="actions-row">
+                    <button id="resetBtn" class="btn btn-secondary btn-outline">Reset Selection</button>
+                    <button id="analyzeBtn" class="btn btn-primary btn-lg">Analyze & Predict</button>
+                </div>
+            </div>
+
+            <!-- Prediction Result (Hidden by default) -->
+            <div id="resultSection" class="result-section hidden">
+                <div class="loader-container hidden" id="loader">
+                    <div class="spinner"></div>
+                    <p>Analyzing system patterns...</p>
+                </div>
+
+                <div id="predictionOutput" class="prediction-output hidden">
+                    <div class="risk-card" id="riskCard">
+                        <div class="risk-header">
+                            <span class="risk-label">Risk Level</span>
+                            <span class="risk-value" id="riskLevel">HIGH</span>
+                        </div>
+                        <div class="risk-bar-container">
+                            <div class="risk-bar" id="riskBar"></div>
+                        </div>
+                        <h2 id="predictionTitle">Phone Crash Risk</h2>
+                        <p id="predictionReason">Predicted due to heating and battery drain patterns.</p>
+
+                        <div class="health-score">
+                            <svg viewBox="0 0 36 36" class="circular-chart">
+                                <path class="circle-bg"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle" id="healthCircle" stroke-dasharray="60, 100"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage" id="healthScore">60</text>
+                            </svg>
+                            <span>Health Score</span>
+                        </div>
+                    </div>
+
+                    <div class="actions-card">
+                        <h3>🔧 Preventive Actions</h3>
+                        <ul id="actionList">
+                            <!-- Actions injected by JS -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- History Modal -->
+    <div id="historyModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Prediction History</h3>
+                <button class="modal-close" id="closeHistory">×</button>
+            </div>
+            <div class="modal-body" id="historyList">
+                <p>No history found.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auth Check
+            if (!Auth.isAuthenticated()) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Set User Name
+            const currentUser = Auth.getCurrentUser();
+            if (currentUser) {
+                document.getElementById('userName').textContent = currentUser.name;
+            }
+
+            // Init Dashboard UI
+            Dashboard.init();
+        });
+    </script>
+</body>
+
+</html>
